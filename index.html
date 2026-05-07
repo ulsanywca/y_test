@@ -265,4 +265,368 @@
     }
 
     .cta-box {
-      margin-top: 16px
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .link-button {
+      display: block;
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 850;
+    }
+
+    .call { background: #2db66d; color: white; }
+    .apply { background: var(--main); color: white; }
+    .share { background: #ffe680; color: #3a2a00; }
+
+    .small-note {
+      margin-top: 14px;
+      font-size: 12.5px;
+      color: #777;
+      word-break: keep-all;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="top">
+      <div class="brand">울산YWCA</div>
+      <div class="badge">활동성향 테스트</div>
+    </div>
+
+    <section id="intro" class="active">
+      <div class="hero">
+        <div class="mini">1분이면 확인하는 나의 참여 스타일</div>
+        <h1>나는 어떤 방식으로<br />세상과 연결될까?</h1>
+        <p>간단한 문항에 답하면 나에게 잘 맞는 YWCA 활동유형과 추천 참여방향을 확인할 수 있습니다.</p>
+      </div>
+
+      <div class="intro-body">
+        <div class="info-card">
+          <h3>🌱 이런 분께 추천해요</h3>
+          <p>YWCA 활동에 관심은 있지만 어디서부터 참여해야 할지 고민되는 분, 나의 강점과 참여방식을 알고 싶은 분께 적합합니다.</p>
+        </div>
+        <div class="info-card">
+          <h3>🧭 결과는 이렇게 나와요</h3>
+          <p>연결형, 실천형, 기획형, 돌봄형 중 가장 가까운 유형을 안내하고, 어울리는 활동을 함께 추천합니다.</p>
+        </div>
+        <div class="info-card">
+          <h3>🔒 안내</h3>
+          <p>이 테스트는 재미와 활동 안내를 위한 간이 진단입니다. 개인정보는 저장되지 않습니다.</p>
+        </div>
+        <button class="button primary" onclick="startTest()">테스트 시작하기</button>
+      </div>
+    </section>
+
+    <section id="test">
+      <div class="test-head">
+        <div><strong id="progressText">1 / 12</strong></div>
+        <div class="progress-wrap"><div id="progressBar" class="progress"></div></div>
+      </div>
+
+      <div class="question-area">
+        <div class="q-card">
+          <div id="qNumber" class="q-number"></div>
+          <div id="qTitle" class="q-title"></div>
+          <div id="options"></div>
+          <div class="nav-row">
+            <button class="button secondary" onclick="prevQuestion()" type="button">이전</button>
+            <button class="button primary" onclick="nextQuestion()" type="button">다음</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="result">
+      <div class="result-wrap">
+        <div class="result-card">
+          <div id="resultEmoji" class="result-emoji"></div>
+          <div class="result-label">나의 활동성향은</div>
+          <h2 id="resultTitle" class="result-title"></h2>
+          <p id="resultDesc" class="result-desc"></p>
+        </div>
+
+        <div class="result-section">
+          <h3>나에게 잘 맞는 참여방식</h3>
+          <ul id="recommendList"></ul>
+        </div>
+
+        <div class="result-section">
+          <h3>참여할 때 기억하면 좋은 점</h3>
+          <ul id="tipList"></ul>
+        </div>
+
+        <div class="cta-box">
+          <a class="link-button apply" href="https://www.ulsanywca.or.kr/" target="_blank">울산YWCA 홈페이지 보기</a>
+          <a class="link-button call" href="tel:0522473520">전화로 문의하기</a>
+          <a class="link-button share" href="javascript:void(0)" onclick="shareResult()">결과 공유하기</a>
+          <button class="button secondary" onclick="resetTest()">다시 테스트하기</button>
+        </div>
+
+        <div class="small-note">※ 본 테스트는 공식 심리검사가 아닌 참여 안내용 콘텐츠입니다. 실제 활동 연계는 기관 일정과 모집 상황에 따라 달라질 수 있습니다.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        text: '새로운 모임에 참여하면 나는 주로 어떤 역할을 하나요?',
+        options: [
+          { text: '사람들이 어색하지 않게 말을 건넨다.', type: 'connect' },
+          { text: '해야 할 일을 빠르게 파악하고 움직인다.', type: 'action' },
+          { text: '전체 흐름과 역할분담을 정리한다.', type: 'plan' },
+          { text: '불편한 사람이 없는지 살핀다.', type: 'care' }
+        ]
+      },
+      {
+        text: '사회문제를 접했을 때 가장 먼저 드는 생각은?',
+        options: [
+          { text: '사람들이 함께 이야기할 자리가 필요하다.', type: 'connect' },
+          { text: '작게라도 바로 실천할 방법을 찾아야 한다.', type: 'action' },
+          { text: '원인과 해결방향을 구조적으로 정리해야 한다.', type: 'plan' },
+          { text: '그 문제로 가장 힘든 사람을 먼저 보호해야 한다.', type: 'care' }
+        ]
+      },
+      {
+        text: '내가 가장 보람을 느끼는 순간은?',
+        options: [
+          { text: '사람과 사람이 연결되는 순간', type: 'connect' },
+          { text: '실제 변화가 눈에 보이는 순간', type: 'action' },
+          { text: '아이디어가 구체적인 사업으로 완성되는 순간', type: 'plan' },
+          { text: '누군가가 안정감을 되찾는 순간', type: 'care' }
+        ]
+      },
+      {
+        text: '팀 활동에서 내가 비교적 잘하는 것은?',
+        options: [
+          { text: '분위기 만들기와 소통 조율', type: 'connect' },
+          { text: '현장 실행과 문제 대응', type: 'action' },
+          { text: '자료 정리와 운영 설계', type: 'plan' },
+          { text: '참여자 배려와 정서적 지지', type: 'care' }
+        ]
+      },
+      {
+        text: '관심 있는 활동을 고른다면?',
+        options: [
+          { text: '회원모임, 네트워크, 소모임', type: 'connect' },
+          { text: '캠페인, 환경실천, 지역활동', type: 'action' },
+          { text: '교육기획, 프로젝트 운영, 홍보콘텐츠', type: 'plan' },
+          { text: '상담, 돌봄, 청소년·여성 지원활동', type: 'care' }
+        ]
+      },
+      {
+        text: '나는 이런 말을 들을 때가 많다.',
+        options: [
+          { text: '사람을 편하게 해준다.', type: 'connect' },
+          { text: '추진력이 있다.', type: 'action' },
+          { text: '정리를 잘한다.', type: 'plan' },
+          { text: '세심하고 따뜻하다.', type: 'care' }
+        ]
+      },
+      {
+        text: '활동을 시작할 때 가장 필요한 것은?',
+        options: [
+          { text: '함께할 사람', type: 'connect' },
+          { text: '바로 해볼 수 있는 과제', type: 'action' },
+          { text: '명확한 목표와 계획', type: 'plan' },
+          { text: '안전하고 신뢰로운 분위기', type: 'care' }
+        ]
+      },
+      {
+        text: '예상치 못한 문제가 생겼을 때 나는?',
+        options: [
+          { text: '사람들의 의견을 모아본다.', type: 'connect' },
+          { text: '당장 가능한 해결책부터 실행한다.', type: 'action' },
+          { text: '상황을 분석하고 대안을 비교한다.', type: 'plan' },
+          { text: '상처받거나 소외된 사람이 없는지 확인한다.', type: 'care' }
+        ]
+      },
+      {
+        text: '내가 선호하는 활동 방식은?',
+        options: [
+          { text: '대화와 교류 중심', type: 'connect' },
+          { text: '현장 참여 중심', type: 'action' },
+          { text: '기획과 제작 중심', type: 'plan' },
+          { text: '지원과 돌봄 중심', type: 'care' }
+        ]
+      },
+      {
+        text: '나에게 맞는 변화의 방식은?',
+        options: [
+          { text: '관계를 넓혀 공감대를 만든다.', type: 'connect' },
+          { text: '행동으로 메시지를 보여준다.', type: 'action' },
+          { text: '체계적인 프로그램으로 확산한다.', type: 'plan' },
+          { text: '가까운 사람의 삶을 회복시키는 데 집중한다.', type: 'care' }
+        ]
+      },
+      {
+        text: '내가 활동에서 피하고 싶은 상황은?',
+        options: [
+          { text: '서로 단절되어 각자 움직이는 상황', type: 'connect' },
+          { text: '말만 많고 실행되지 않는 상황', type: 'action' },
+          { text: '계획 없이 즉흥적으로 진행되는 상황', type: 'plan' },
+          { text: '사람의 마음보다 성과만 앞서는 상황', type: 'care' }
+        ]
+      },
+      {
+        text: '앞으로 내가 더 해보고 싶은 것은?',
+        options: [
+          { text: '좋은 사람들과 지속적으로 연결되기', type: 'connect' },
+          { text: '지역사회 변화를 위한 실천에 참여하기', type: 'action' },
+          { text: '내 아이디어를 프로그램으로 만들어보기', type: 'plan' },
+          { text: '누군가에게 힘이 되는 지원자가 되기', type: 'care' }
+        ]
+      }
+    ];
+
+    const results = {
+      connect: {
+        emoji: '🤝',
+        title: '연결형 활동가',
+        desc: '한 사람의 참여가 또 다른 사람의 참여로 이어지도록 분위기를 만들고 관계를 확장하는 데 강점이 있습니다. 모임 안에서 사람들을 자연스럽게 잇고, 함께하는 의미를 키워가는 유형입니다.',
+        recommends: ['회원 소모임 및 네트워크 활동', '캠페인 참여자 모집·홍보', '지역사회 연대활동', '행사 진행 보조 및 참여자 안내'],
+        tips: ['혼자 모든 관계를 책임지려 하지 않아도 괜찮습니다.', '연결의 힘을 사업성과로 기록하면 더 큰 영향력이 됩니다.', '소통 역할과 실무 역할의 경계를 정하면 지속성이 높아집니다.']
+      },
+      action: {
+        emoji: '🔥',
+        title: '실천형 활동가',
+        desc: '좋은 가치가 현장에서 실제 행동으로 이어질 때 가장 큰 힘을 발휘합니다. 생각에 머무르기보다 직접 움직이고, 캠페인과 지역활동에서 변화를 만들어내는 유형입니다.',
+        recommends: ['환경·평화·성평등 캠페인', '지역사회 봉사 및 현장활동', '행사 운영 스태프', '실천 챌린지 기획 및 참여'],
+        tips: ['속도감은 강점이지만, 활동 후 기록과 평가를 남기면 더 좋습니다.', '혼자 앞서가기보다 팀의 속도를 확인하면 협업력이 높아집니다.', '작은 실천도 꾸준히 연결하면 운동성이 됩니다.']
+      },
+      plan: {
+        emoji: '🧩',
+        title: '기획형 활동가',
+        desc: '문제를 구조적으로 보고, 아이디어를 구체적인 프로그램과 콘텐츠로 정리하는 데 강점이 있습니다. 활동의 목적과 흐름을 설계하고 성과로 연결하는 유형입니다.',
+        recommends: ['교육·캠페인 기획단', '홍보콘텐츠 제작', '프로그램 아이디어 회의', '자료조사 및 사업 운영 지원'],
+        tips: ['완벽한 계획보다 실행 가능한 계획이 중요할 때도 있습니다.', '기획 단계에서 현장 참여자의 목소리를 함께 반영하면 완성도가 높아집니다.', '좋은 아이디어는 기록해두면 다음 사업의 자산이 됩니다.']
+      },
+      care: {
+        emoji: '🌿',
+        title: '돌봄형 활동가',
+        desc: '사람의 마음과 안전을 세심하게 살피며, 누구도 소외되지 않도록 돕는 데 강점이 있습니다. 활동 안에서 신뢰와 회복의 기반을 만드는 유형입니다.',
+        recommends: ['청소년·여성 지원활동', '상담·멘토링 보조활동', '돌봄 및 나눔 캠페인', '참여자 환대·안내 역할'],
+        tips: ['다른 사람을 돌보는 만큼 나의 소진도 함께 점검해야 합니다.', '배려는 강점이지만, 필요한 경우 명확한 기준을 세우는 것도 중요합니다.', '작은 지지와 환대가 참여자의 지속성을 높입니다.']
+      }
+    };
+
+    let current = 0;
+    let answers = new Array(questions.length).fill(null);
+
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startTest() {
+      current = 0;
+      answers = new Array(questions.length).fill(null);
+      showSection('test');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questions[current];
+      document.getElementById('progressText').textContent = `${current + 1} / ${questions.length}`;
+      document.getElementById('progressBar').style.width = `${((current + 1) / questions.length) * 100}%`;
+      document.getElementById('qNumber').textContent = `Q${current + 1}`;
+      document.getElementById('qTitle').textContent = q.text;
+
+      const optionsEl = document.getElementById('options');
+      optionsEl.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option' + (answers[current] === opt.type ? ' selected' : '');
+        btn.textContent = opt.text;
+        btn.onclick = () => {
+          answers[current] = opt.type;
+          renderQuestion();
+        };
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function prevQuestion() {
+      if (current > 0) {
+        current--;
+        renderQuestion();
+      } else {
+        showSection('intro');
+      }
+    }
+
+    function nextQuestion() {
+      if (!answers[current]) {
+        alert('답변을 선택해 주세요.');
+        return;
+      }
+
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const score = { connect: 0, action: 0, plan: 0, care: 0 };
+      answers.forEach(type => { if (type) score[type]++; });
+
+      const topType = Object.keys(score).sort((a, b) => score[b] - score[a])[0];
+      const result = results[topType];
+
+      document.getElementById('resultEmoji').textContent = result.emoji;
+      document.getElementById('resultTitle').textContent = result.title;
+      document.getElementById('resultDesc').textContent = result.desc;
+
+      const recEl = document.getElementById('recommendList');
+      recEl.innerHTML = '';
+      result.recommends.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        recEl.appendChild(li);
+      });
+
+      const tipEl = document.getElementById('tipList');
+      tipEl.innerHTML = '';
+      result.tips.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        tipEl.appendChild(li);
+      });
+
+      showSection('result');
+    }
+
+    function shareResult() {
+      const title = document.getElementById('resultTitle').textContent;
+      const text = `나의 YWCA 활동성향은 '${title}'입니다.`;
+
+      if (navigator.share) {
+        navigator.share({ title: '나의 YWCA 활동성향 테스트', text, url: location.href });
+      } else {
+        navigator.clipboard.writeText(`${text}\n${location.href}`);
+        alert('공유 문구와 링크가 복사되었습니다.');
+      }
+    }
+
+    function resetTest() {
+      startTest();
+    }
+  </script>
+</body>
+</html>
