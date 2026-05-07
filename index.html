@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나의 YWCA 활동성향 테스트</title>
+  <style>
+    :root {
+      --main: #6b4eff;
+      --main-dark: #4a32d9;
+      --sub: #ff8a3d;
+      --bg: #f6f4ff;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #666666;
+      --line: #e7e3ff;
+      --soft: #f1edff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      background: linear-gradient(180deg, var(--bg), #ffffff);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 640px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #ffffff;
+      box-shadow: 0 0 30px rgba(42, 31, 109, 0.08);
+      overflow: hidden;
+    }
+
+    .top {
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      font-weight: 800;
+      color: var(--main-dark);
+      letter-spacing: -0.4px;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--main-dark);
+      font-weight: 700;
+    }
+
+    section { display: none; }
+    section.active { display: block; animation: fade 0.35s ease; }
+
+    .hero {
+      padding: 44px 24px 32px;
+      text-align: center;
+      background: radial-gradient(circle at top right, #ffe0c9 0, transparent 36%), linear-gradient(135deg, #6b4eff, #8b7bff);
+      color: #ffffff;
+    }
+
+    .hero .mini {
+      display: inline-block;
+      padding: 7px 13px;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.25;
+      letter-spacing: -1px;
+    }
+
+    .hero p {
+      margin: 16px auto 0;
+      max-width: 460px;
+      color: rgba(255,255,255,0.92);
+      font-size: 16px;
+      word-break: keep-all;
+    }
+
+    .intro-body { padding: 24px; }
+
+    .info-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #ffffff;
+      margin-bottom: 14px;
+    }
+
+    .info-card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      color: var(--main-dark);
+    }
+
+    .info-card p {
+      margin: 0;
+      font-size: 14.5px;
+      color: var(--muted);
+      word-break: keep-all;
+    }
+
+    .button {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      padding: 17px 18px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+    }
+
+    .button:active { transform: scale(0.99); }
+    .primary { background: var(--main); color: white; box-shadow: 0 8px 18px rgba(107, 78, 255, 0.24); }
+    .primary:hover { background: var(--main-dark); }
+    .secondary { background: var(--soft); color: var(--main-dark); }
+
+    .test-head {
+      padding: 24px 24px 14px;
+      background: #ffffff;
+    }
+
+    .progress-wrap {
+      height: 9px;
+      background: #eeeafc;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--main), var(--sub));
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .question-area { padding: 12px 24px 26px; }
+
+    .q-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(40, 34, 92, 0.06);
+    }
+
+    .q-number {
+      color: var(--main);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .q-title {
+      font-size: 22px;
+      font-weight: 850;
+      letter-spacing: -0.7px;
+      margin-bottom: 18px;
+      word-break: keep-all;
+    }
+
+    .option {
+      width: 100%;
+      display: block;
+      text-align: left;
+      background: #faf9ff;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 15px 15px;
+      margin-bottom: 10px;
+      font-size: 15.5px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .option:hover,
+    .option.selected {
+      border-color: var(--main);
+      background: var(--soft);
+      font-weight: 700;
+    }
+
+    .nav-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .nav-row .button { font-size: 15px; padding: 14px; }
+
+    .result-wrap { padding: 26px 24px 40px; background: var(--bg); min-height: calc(100vh - 64px); }
+
+    .result-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 26px 22px;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 30px rgba(40, 34, 92, 0.08);
+      text-align: center;
+    }
+
+    .result-emoji { font-size: 54px; margin-bottom: 10px; }
+    .result-label { color: var(--main); font-size: 14px; font-weight: 900; }
+
+    .result-title {
+      margin: 8px 0 12px;
+      font-size: 28px;
+      letter-spacing: -1px;
+      color: var(--main-dark);
+    }
+
+    .result-desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15.5px;
+      word-break: keep-all;
+      text-align: left;
+    }
+
+    .result-section {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .result-section h3 {
+      margin: 0 0 9px;
+      font-size: 17px;
+      color: var(--main-dark);
+    }
+
+    .result-section ul {
+      margin: 0;
+      padding-left: 20px;
+      color: #444;
+      font-size: 14.5px;
+    }
+
+    .cta-box {
+      margin-top: 16px
