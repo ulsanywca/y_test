@@ -3,18 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>나의 YWCA 활동성향 테스트</title>
+  <title>(사)울산YWCA 국민취업지원제도</title>
+  <meta name="robots" content="noindex" />
   <style>
     :root {
-      --main: #6b4eff;
-      --main-dark: #4a32d9;
-      --sub: #ff8a3d;
-      --bg: #f6f4ff;
+      --green: #0f8a55;
+      --green-dark: #087141;
+      --green-soft: #eaf7f1;
+      --blue: #1268b3;
+      --blue-soft: #eaf3ff;
+      --yellow: #f6b21a;
+      --red: #e94d4d;
+      --bg: #f7fbf9;
       --card: #ffffff;
-      --text: #222222;
-      --muted: #666666;
-      --line: #e7e3ff;
-      --soft: #f1edff;
+      --text: #20242a;
+      --muted: #6b7280;
+      --line: #dfe9e4;
+      --shadow: 0 16px 40px rgba(15, 80, 48, 0.10);
     }
 
     * { box-sizing: border-box; }
@@ -22,357 +27,702 @@
     body {
       margin: 0;
       font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      background: linear-gradient(180deg, var(--bg), #ffffff);
+      background: radial-gradient(circle at top, #ffffff 0%, #f3faf7 45%, #ffffff 100%);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.55;
     }
 
     .app {
       width: 100%;
-      max-width: 640px;
       min-height: 100vh;
-      margin: 0 auto;
-      background: #ffffff;
-      box-shadow: 0 0 30px rgba(42, 31, 109, 0.08);
-      overflow: hidden;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbf9 100%);
     }
 
-    .top {
-      padding: 18px 22px;
+    .top-bar {
+      height: 88px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--line);
+      gap: 14px;
+      padding: 0 34px;
       background: #ffffff;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      border-bottom: 4px solid var(--green);
     }
 
-    .brand {
-      font-weight: 800;
-      color: var(--main-dark);
-      letter-spacing: -0.4px;
+    .logo {
+      width: 42px;
+      height: auto;
+      display: block;
+      flex: 0 0 auto;
     }
 
-    .badge {
-      font-size: 12px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: var(--soft);
-      color: var(--main-dark);
-      font-weight: 700;
+    .brand-title {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+      white-space: nowrap;
     }
+
+    .brand-title .org { color: #1f2328; }
+    .brand-title .program { color: var(--green); }
 
     section { display: none; }
-    section.active { display: block; animation: fade 0.35s ease; }
+    section.active { display: block; animation: fade 0.25s ease; }
 
-    .hero {
-      padding: 44px 24px 32px;
-      text-align: center;
-      background: radial-gradient(circle at top right, #ffe0c9 0, transparent 36%), linear-gradient(135deg, #6b4eff, #8b7bff);
-      color: #ffffff;
+    .page {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 42px 22px 40px;
     }
 
-    .hero .mini {
-      display: inline-block;
-      padding: 7px 13px;
-      border: 1px solid rgba(255,255,255,0.35);
+    .main-hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 18px;
+      min-height: calc(100vh - 88px - 40px);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.12);
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 16px;
+      background: #e9f7f0;
+      border: 1px solid #bfe5d1;
+      color: var(--green-dark);
+      font-weight: 850;
+      font-size: 15px;
+      margin-bottom: 22px;
     }
 
-    h1 {
+    .hero-title {
       margin: 0;
-      font-size: 30px;
-      line-height: 1.25;
-      letter-spacing: -1px;
+      font-size: clamp(38px, 6vw, 62px);
+      line-height: 1.15;
+      letter-spacing: -2px;
+      font-weight: 950;
     }
 
-    .hero p {
-      margin: 16px auto 0;
-      max-width: 460px;
-      color: rgba(255,255,255,0.92);
-      font-size: 16px;
+    .hero-title .green { color: var(--green); }
+
+    .hero-desc {
+      margin: 24px 0 0;
+      color: #374151;
+      font-size: clamp(17px, 2.5vw, 22px);
       word-break: keep-all;
     }
 
-    .intro-body { padding: 24px; }
+    .hero-visual {
+      position: relative;
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    .info-card {
-      padding: 18px;
+    .person-card {
+      width: 300px;
+      height: 300px;
+      border-radius: 42px;
+      background: linear-gradient(135deg, #ecfff6, #ffffff);
+      box-shadow: var(--shadow);
       border: 1px solid var(--line);
-      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .person {
+      font-size: 130px;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,0.05));
+    }
+
+    .float-icon {
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
       background: #ffffff;
-      margin-bottom: 14px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
     }
 
-    .info-card h3 {
-      margin: 0 0 8px;
-      font-size: 17px;
-      color: var(--main-dark);
+    .float-icon.one { left: 24px; top: 44px; color: var(--green); }
+    .float-icon.two { right: 30px; top: 72px; color: var(--blue); }
+    .float-icon.three { right: 80px; bottom: 20px; color: #8b5cf6; }
+
+    .intro-card {
+      grid-column: 1 / -1;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 22px;
     }
 
-    .info-card p {
-      margin: 0;
-      font-size: 14.5px;
-      color: var(--muted);
-      word-break: keep-all;
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
-    .button {
+    .feature {
+      min-height: 116px;
+      padding: 20px 14px;
+      border-radius: 18px;
+      background: #fffdf8;
+      border: 1px solid #efe8d8;
+      text-align: center;
+    }
+
+    .feature .icon { font-size: 35px; margin-bottom: 8px; }
+    .feature b { display: block; font-size: 17px; margin-bottom: 4px; }
+    .feature span { color: var(--muted); font-size: 14px; }
+
+    .start-btn,
+    .primary-btn,
+    .sub-btn {
       width: 100%;
       border: 0;
-      border-radius: 16px;
-      padding: 17px 18px;
-      font-size: 17px;
-      font-weight: 800;
       cursor: pointer;
-      transition: transform 0.15s, background 0.2s;
+      border-radius: 999px;
+      padding: 18px 22px;
+      font-size: 19px;
+      font-weight: 900;
+      transition: 0.15s;
+      font-family: inherit;
     }
 
-    .button:active { transform: scale(0.99); }
-    .primary { background: var(--main); color: white; box-shadow: 0 8px 18px rgba(107, 78, 255, 0.24); }
-    .primary:hover { background: var(--main-dark); }
-    .secondary { background: var(--soft); color: var(--main-dark); }
-
-    .test-head {
-      padding: 24px 24px 14px;
-      background: #ffffff;
+    .start-btn,
+    .primary-btn {
+      background: linear-gradient(90deg, var(--green), #0a7d49);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(15, 138, 85, 0.22);
     }
 
-    .progress-wrap {
-      height: 9px;
-      background: #eeeafc;
+    .sub-btn {
+      background: #eef7f3;
+      color: var(--green-dark);
+    }
+
+    .start-btn:active,
+    .primary-btn:active,
+    .sub-btn:active { transform: scale(0.99); }
+
+    .safe-note {
+      margin-top: 12px;
+      color: #8a8f98;
+      text-align: center;
+      font-size: 13.5px;
+    }
+
+    .test-page,
+    .result-page {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 30px 22px 40px;
+    }
+
+    .progress-area {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #dff2e9;
+      color: var(--green-dark);
+      font-size: 17px;
+      font-weight: 850;
+      padding: 9px 22px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .bar-bg {
+      width: min(560px, 70vw);
+      height: 10px;
+      background: #e6e8eb;
       border-radius: 999px;
       overflow: hidden;
-      margin-top: 14px;
     }
 
-    .progress {
-      width: 0%;
+    .bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--main), var(--sub));
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), #14a66b);
       border-radius: 999px;
-      transition: width 0.25s ease;
+      transition: width 0.2s ease;
     }
 
-    .question-area { padding: 12px 24px 26px; }
+    .count-text {
+      color: var(--green-dark);
+      font-weight: 850;
+      font-size: 18px;
+      min-width: 56px;
+      text-align: left;
+    }
 
-    .q-card {
+    .question-card,
+    .result-card {
+      background: rgba(255,255,255,0.96);
       border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 22px;
-      background: #ffffff;
-      box-shadow: 0 8px 24px rgba(40, 34, 92, 0.06);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 34px 32px;
     }
 
-    .q-number {
-      color: var(--main);
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 8px;
+    .q-label {
+      color: var(--green);
+      font-size: 40px;
+      line-height: 1;
+      font-weight: 950;
+      text-align: center;
+      margin-bottom: 10px;
     }
 
     .q-title {
-      font-size: 22px;
-      font-weight: 850;
-      letter-spacing: -0.7px;
-      margin-bottom: 18px;
+      margin: 0;
+      text-align: center;
+      font-size: clamp(25px, 4vw, 36px);
+      letter-spacing: -1.2px;
+      line-height: 1.25;
+      font-weight: 950;
       word-break: keep-all;
     }
 
+    .q-sub {
+      text-align: center;
+      margin: 10px 0 28px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
     .option {
-      width: 100%;
-      display: block;
-      text-align: left;
-      background: #faf9ff;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 15px 15px;
-      margin-bottom: 10px;
-      font-size: 15.5px;
-      color: var(--text);
+      min-height: 180px;
+      padding: 18px 10px;
+      border-radius: 20px;
+      border: 2px solid #e5e7eb;
+      background: #ffffff;
       cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: 0.16s;
+      color: var(--text);
     }
 
     .option:hover,
     .option.selected {
-      border-color: var(--main);
-      background: var(--soft);
-      font-weight: 700;
+      border-color: var(--green);
+      background: #f1fbf6;
+      transform: translateY(-2px);
     }
 
-    .nav-row {
+    .opt-icon {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
       display: flex;
-      gap: 10px;
-      margin-top: 18px;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      background: #e9f7f0;
     }
 
-    .nav-row .button { font-size: 15px; padding: 14px; }
+    .opt-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -22px;
+      border: 2px solid #ffffff;
+    }
 
-    .result-wrap { padding: 26px 24px 40px; background: var(--bg); min-height: calc(100vh - 64px); }
+    .opt-text {
+      font-size: 17px;
+      font-weight: 750;
+      word-break: keep-all;
+      text-align: center;
+      white-space: pre-line;
+    }
 
-    .result-card {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 26px 22px;
+    .test-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .help-text {
+      text-align: center;
+      color: #8a8f98;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .done-title {
+      text-align: center;
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 36px);
+      letter-spacing: -1px;
+      font-weight: 950;
+    }
+
+    .done-sub {
+      text-align: center;
+      margin: 0 0 22px;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .result-box {
       border: 1px solid var(--line);
-      box-shadow: 0 10px 30px rgba(40, 34, 92, 0.08);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      min-height: 220px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 28px;
+      border-radius: 999px;
+      font-weight: 850;
+      margin-bottom: 14px;
+    }
+
+    .tag.green { background: #e4f3eb; color: var(--green-dark); }
+    .tag.blue { background: #e6f0ff; color: #0b5eb0; }
+
+    .result-icon {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      background: #edf8f2;
+    }
+
+    .result-box h3 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 26px;
+      letter-spacing: -0.8px;
+    }
+
+    .result-box.blue h3 { color: #0b5eb0; }
+
+    .result-box p {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+      word-break: keep-all;
+    }
+
+    .notice {
+      background: #eef8f3;
+      color: var(--green-dark);
+      border-radius: 10px;
+      text-align: center;
+      padding: 9px;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .service-title {
+      margin: 0 0 12px;
+      color: var(--green-dark);
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .service {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .service span { font-size: 25px; margin-right: 4px; }
+
+    .cta-panel {
+      border: 1px solid #cde8db;
+      background: #f2fbf6;
+      border-radius: 18px;
+      padding: 16px 16px 14px;
       text-align: center;
     }
 
-    .result-emoji { font-size: 54px; margin-bottom: 10px; }
-    .result-label { color: var(--main); font-size: 14px; font-weight: 900; }
-
-    .result-title {
-      margin: 8px 0 12px;
-      font-size: 28px;
-      letter-spacing: -1px;
-      color: var(--main-dark);
+    .cta-title {
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 950;
+      color: var(--green-dark);
+      letter-spacing: -0.7px;
+      margin: 0 0 6px;
     }
 
-    .result-desc {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15.5px;
-      word-break: keep-all;
+    .cta-sub {
+      margin: 0 0 14px;
+      font-size: 18px;
+      font-weight: 750;
+      color: #1f2a37;
+    }
+
+    .cta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .cta {
+      min-height: 78px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 13px 16px;
+      font-weight: 900;
+      font-size: 16px;
+      transition: 0.15s;
+    }
+
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,0,0,0.07); }
+
+    .cta-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-align: left;
     }
 
-    .result-section {
-      margin-top: 16px;
-      padding: 18px;
-      border-radius: 18px;
-      background: #ffffff;
-      border: 1px solid var(--line);
+    .cta-ico {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      background: #eaf7f1;
+      flex: 0 0 auto;
     }
 
-    .result-section h3 {
-      margin: 0 0 9px;
-      font-size: 17px;
-      color: var(--main-dark);
-    }
+    .arrow { color: #8b949e; font-size: 24px; }
 
-    .result-section ul {
-      margin: 0;
-      padding-left: 20px;
-      color: #444;
-      font-size: 14.5px;
-    }
-
-    .cta-box {
-      margin-top: 16px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .link-button {
-      display: block;
-      padding: 15px;
-      border-radius: 15px;
-      text-align: center;
-      text-decoration: none;
-      font-weight: 850;
-    }
-
-    .call { background: #2db66d; color: white; }
-    .apply { background: var(--main); color: white; }
-    .share { background: #ffe680; color: #3a2a00; }
-
-    .small-note {
-      margin-top: 14px;
-      font-size: 12.5px;
-      color: #777;
-      word-break: keep-all;
-    }
+    .retry { margin-top: 14px; }
 
     @keyframes fade {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    @media (max-width: 760px) {
+      .top-bar { height: auto; min-height: 72px; padding: 13px 16px; }
+      .logo { width: 36px; }
+      .brand-title { font-size: 18px; gap: 6px; white-space: normal; }
+      .page { padding: 28px 16px; }
+      .main-hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-visual { min-height: 240px; }
+      .person-card { width: 210px; height: 210px; border-radius: 30px; }
+      .person { font-size: 92px; }
+      .float-icon { width: 58px; height: 58px; font-size: 29px; }
+      .feature-grid, .option-grid, .result-grid, .service-grid, .cta-grid { grid-template-columns: 1fr; }
+      .option { min-height: 115px; flex-direction: row; justify-content: flex-start; text-align: left; padding: 16px; }
+      .opt-icon { width: 56px; height: 56px; font-size: 28px; }
+      .opt-num { margin-top: 0; margin-left: -22px; }
+      .opt-text { text-align: left; }
+      .question-card, .result-card { padding: 24px 18px; }
+      .test-nav { grid-template-columns: 1fr; }
+      .bar-bg { width: 68vw; }
+      .cta { min-height: 66px; }
+    }
   </style>
 </head>
 <body>
   <main class="app">
-    <div class="top">
-      <div class="brand">울산YWCA</div>
-      <div class="badge">활동성향 테스트</div>
-    </div>
+    <header class="top-bar">
+      <!-- GitHub에 올릴 때 로고 파일명을 logo.png로 함께 업로드하세요. -->
+      <img src="logo.png" alt="YWCA 로고" class="logo" />
+      <div class="brand-title">
+        <span class="org">(사)울산YWCA</span>
+        <span class="program">국민취업지원제도</span>
+      </div>
+    </header>
 
     <section id="intro" class="active">
-      <div class="hero">
-        <div class="mini">1분이면 확인하는 나의 참여 스타일</div>
-        <h1>나는 어떤 방식으로<br />세상과 연결될까?</h1>
-        <p>간단한 문항에 답하면 나에게 잘 맞는 YWCA 활동유형과 추천 참여방향을 확인할 수 있습니다.</p>
-      </div>
+      <div class="page main-hero">
+        <div class="hero-copy">
+          <div class="pill">🕒 1분 진단으로 알아보는</div>
+          <h1 class="hero-title">나에게 맞는<br><span class="green">취업지원 유형 찾기</span></h1>
+          <p class="hero-desc">간단한 질문으로 나의 취업준비 상태와 받을 수 있는 지원을 확인해보세요!</p>
+        </div>
 
-      <div class="intro-body">
-        <div class="info-card">
-          <h3>🌱 이런 분께 추천해요</h3>
-          <p>YWCA 활동에 관심은 있지만 어디서부터 참여해야 할지 고민되는 분, 나의 강점과 참여방식을 알고 싶은 분께 적합합니다.</p>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="person-card"><div class="person">🧑‍💼</div></div>
+          <div class="float-icon one">🔍</div>
+          <div class="float-icon two">💼</div>
+          <div class="float-icon three">❔</div>
         </div>
-        <div class="info-card">
-          <h3>🧭 결과는 이렇게 나와요</h3>
-          <p>연결형, 실천형, 기획형, 돌봄형 중 가장 가까운 유형을 안내하고, 어울리는 활동을 함께 추천합니다.</p>
+
+        <div class="intro-card">
+          <div class="feature-grid">
+            <div class="feature"><div class="icon">✅</div><b>간단한 12문항</b><span>1분이면 충분해요</span></div>
+            <div class="feature"><div class="icon">📊</div><b>나의 취업 유형 확인</b><span>맞춤형 결과 제공</span></div>
+            <div class="feature"><div class="icon">👥</div><b>지원 제도 연계</b><span>1유형 / 2유형 간이진단</span></div>
+          </div>
+          <button class="start-btn" onclick="startTest()">지금 진단 시작하기 〉</button>
+          <div class="safe-note">🔒 본 진단은 간이진단이며, 정확한 참여 여부는 상담을 통해 확인됩니다.</div>
         </div>
-        <div class="info-card">
-          <h3>🔒 안내</h3>
-          <p>이 테스트는 재미와 활동 안내를 위한 간이 진단입니다. 개인정보는 저장되지 않습니다.</p>
-        </div>
-        <button class="button primary" onclick="startTest()">테스트 시작하기</button>
       </div>
     </section>
 
     <section id="test">
-      <div class="test-head">
-        <div><strong id="progressText">1 / 12</strong></div>
-        <div class="progress-wrap"><div id="progressBar" class="progress"></div></div>
-      </div>
-
-      <div class="question-area">
-        <div class="q-card">
-          <div id="qNumber" class="q-number"></div>
-          <div id="qTitle" class="q-title"></div>
-          <div id="options"></div>
-          <div class="nav-row">
-            <button class="button secondary" onclick="prevQuestion()" type="button">이전</button>
-            <button class="button primary" onclick="nextQuestion()" type="button">다음</button>
+      <div class="test-page">
+        <div class="progress-area">
+          <div class="status-pill">🕒 1분 진단</div>
+          <div class="bar-row">
+            <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
+            <div class="count-text" id="countText">1 / 12</div>
           </div>
         </div>
+
+        <div class="question-card">
+          <div class="q-label" id="qLabel">Q1.</div>
+          <h2 class="q-title" id="qTitle"></h2>
+          <p class="q-sub">가장 잘 맞는 항목을 선택해주세요.</p>
+          <div class="option-grid" id="optionGrid"></div>
+          <div class="test-nav">
+            <button type="button" class="sub-btn" onclick="prevQuestion()">이전</button>
+            <button type="button" class="primary-btn" onclick="nextQuestion()">다음</button>
+          </div>
+        </div>
+        <div class="help-text">↑ 질문에 답변을 선택해주세요</div>
       </div>
     </section>
 
     <section id="result">
-      <div class="result-wrap">
+      <div class="result-page">
+        <div class="progress-area">
+          <div class="status-pill">✅ 진단 완료</div>
+          <div class="bar-row">
+            <div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div>
+            <div class="count-text">12 / 12</div>
+          </div>
+        </div>
+
         <div class="result-card">
-          <div id="resultEmoji" class="result-emoji"></div>
-          <div class="result-label">나의 활동성향은</div>
-          <h2 id="resultTitle" class="result-title"></h2>
-          <p id="resultDesc" class="result-desc"></p>
-        </div>
+          <h2 class="done-title">🎉 진단이 완료되었습니다!</h2>
+          <p class="done-sub">당신의 결과를 확인해보세요.</p>
 
-        <div class="result-section">
-          <h3>나에게 잘 맞는 참여방식</h3>
-          <ul id="recommendList"></ul>
-        </div>
+          <div class="result-grid">
+            <div class="result-box">
+              <div class="tag green">나의 취업준비 유형</div>
+              <div class="result-icon" id="prepIcon">🌱</div>
+              <h3 id="prepTitle">성장형</h3>
+              <p id="prepDesc">취업을 위해 꾸준히 준비하고 있으며, 실질적인 역량 강화가 필요한 단계입니다.</p>
+            </div>
 
-        <div class="result-section">
-          <h3>참여할 때 기억하면 좋은 점</h3>
-          <ul id="tipList"></ul>
-        </div>
+            <div class="result-box blue">
+              <div class="tag blue">국민취업지원제도 간이진단 결과</div>
+              <div class="result-icon" style="background:#eaf3ff;">📋</div>
+              <h3 id="supportTitle">2유형 가능성 높음</h3>
+              <p id="supportDesc">입력하신 내용을 기준으로 국민취업지원제도 참여 가능성을 확인할 수 있습니다.</p>
+            </div>
+          </div>
 
-        <div class="cta-box">
-          <a class="link-button apply" href="https://www.ulsanywca.or.kr/" target="_blank">울산YWCA 홈페이지 보기</a>
-          <a class="link-button call" href="tel:0522473520">전화로 문의하기</a>
-          <a class="link-button share" href="javascript:void(0)" onclick="shareResult()">결과 공유하기</a>
-          <button class="button secondary" onclick="resetTest()">다시 테스트하기</button>
-        </div>
+          <div class="notice">※ 본 결과는 간이진단 결과이며, 정확한 참여 여부는 상담을 통해 확인됩니다.</div>
 
-        <div class="small-note">※ 본 테스트는 공식 심리검사가 아닌 참여 안내용 콘텐츠입니다. 실제 활동 연계는 기관 일정과 모집 상황에 따라 달라질 수 있습니다.</div>
+          <h3 class="service-title">☆ 추천 지원 서비스</h3>
+          <div class="service-grid" id="serviceGrid">
+            <div class="service"><span>💬</span>취업상담</div>
+            <div class="service"><span>📖</span>취업역량강화</div>
+            <div class="service"><span>🎓</span>직업훈련 연계</div>
+            <div class="service"><span>👤</span>일경험 지원</div>
+          </div>
+
+          <div class="cta-panel">
+            <p class="cta-title">더 자세한 상담이 필요하신가요?</p>
+            <p class="cta-sub">(사)울산YWCA 국민취업지원제도가 함께하겠습니다.</p>
+            <div class="cta-grid">
+              <a class="cta" href="tel:0529223520">
+                <span class="cta-left"><span class="cta-ico">📞</span><span>전화 상담</span></span><span class="arrow">›</span>
+              </a>
+              <a class="cta" href="https://pf.kakao.com/_VzKhX" target="_blank">
+                <span class="cta-left"><span class="cta-ico" style="background:#fff4c7;">💬</span><span>카카오톡 문의</span></span><span class="arrow">›</span>
+              </a>
+              <a class="cta" href="http://ulsanywca.kr/" target="_blank">
+                <span class="cta-left"><span class="cta-ico" style="background:#eaf3ff;">🌐</span><span>홈페이지 바로가기</span></span><span class="arrow">›</span>
+              </a>
+              <a class="cta" href="https://map.naver.com/p/search/%EC%9A%B8%EC%82%B0YWCA/place/16461604?c=15.00,0,0,0,dh&placePath=/home?bk_query=%EC%9A%B8%EC%82%B0YWCA&entry=bmp&from=map&fromPanelNum=2&timestamp=202605191057&locale=ko&svcName=map_pcv5&searchText=%EC%9A%B8%EC%82%B0YWCA" target="_blank">
+                <span class="cta-left"><span class="cta-ico" style="background:#ffecec;">📍</span><span>YWCA 오시는 길</span></span><span class="arrow">›</span>
+              </a>
+            </div>
+          </div>
+
+          <button type="button" class="sub-btn retry" onclick="resetTest()">다시 진단하기</button>
+        </div>
       </div>
     </section>
   </main>
@@ -380,143 +730,145 @@
   <script>
     const questions = [
       {
-        text: '새로운 모임에 참여하면 나는 주로 어떤 역할을 하나요?',
+        text: '현재 나와 가장 가까운 상태는?',
         options: [
-          { text: '사람들이 어색하지 않게 말을 건넨다.', type: 'connect' },
-          { text: '해야 할 일을 빠르게 파악하고 움직인다.', type: 'action' },
-          { text: '전체 흐름과 역할분담을 정리한다.', type: 'plan' },
-          { text: '불편한 사람이 없는지 살핀다.', type: 'care' }
+          { icon: '🔍', text: '졸업 후\n진로를 고민 중이다', prep: 'explore', support: 0 },
+          { icon: '💼', text: '아르바이트·\n단기근로 중이다', prep: 'support', support: 1 },
+          { icon: '📝', text: '취업 준비를\n본격적으로 시작했다', prep: 'growth', support: 0 },
+          { icon: '❔', text: '무엇부터 해야 할지\n모르겠다', prep: 'explore', support: 1 }
         ]
       },
       {
-        text: '사회문제를 접했을 때 가장 먼저 드는 생각은?',
+        text: '취업 준비에서 가장 어려운 것은?',
         options: [
-          { text: '사람들이 함께 이야기할 자리가 필요하다.', type: 'connect' },
-          { text: '작게라도 바로 실천할 방법을 찾아야 한다.', type: 'action' },
-          { text: '원인과 해결방향을 구조적으로 정리해야 한다.', type: 'plan' },
-          { text: '그 문제로 가장 힘든 사람을 먼저 보호해야 한다.', type: 'care' }
+          { icon: '🧭', text: '진로 방향을\n정하기 어렵다', prep: 'explore', support: 0 },
+          { icon: '📄', text: '이력서·면접\n준비가 어렵다', prep: 'ready', support: 0 },
+          { icon: '💰', text: '생활비·경제\n부담이 있다', prep: 'support', support: 2 },
+          { icon: '🛠️', text: '경험과 경력이\n부족하다', prep: 'growth', support: 0 }
         ]
       },
       {
-        text: '내가 가장 보람을 느끼는 순간은?',
+        text: '내가 가장 필요하다고 느끼는 지원은?',
         options: [
-          { text: '사람과 사람이 연결되는 순간', type: 'connect' },
-          { text: '실제 변화가 눈에 보이는 순간', type: 'action' },
-          { text: '아이디어가 구체적인 사업으로 완성되는 순간', type: 'plan' },
-          { text: '누군가가 안정감을 되찾는 순간', type: 'care' }
+          { icon: '💬', text: '진로상담', prep: 'explore', support: 0 },
+          { icon: '🎤', text: '취업컨설팅', prep: 'ready', support: 0 },
+          { icon: '💵', text: '경제적 지원', prep: 'support', support: 2 },
+          { icon: '🎓', text: '직업훈련·경험', prep: 'growth', support: 0 }
         ]
       },
       {
-        text: '팀 활동에서 내가 비교적 잘하는 것은?',
+        text: '취업 준비는 어느 정도 진행됐나요?',
         options: [
-          { text: '분위기 만들기와 소통 조율', type: 'connect' },
-          { text: '현장 실행과 문제 대응', type: 'action' },
-          { text: '자료 정리와 운영 설계', type: 'plan' },
-          { text: '참여자 배려와 정서적 지지', type: 'care' }
+          { icon: '🌱', text: '아직\n시작 전이다', prep: 'explore', support: 0 },
+          { icon: '👀', text: '조금씩\n알아보고 있다', prep: 'ready', support: 0 },
+          { icon: '📚', text: '교육·자격증\n준비 중이다', prep: 'growth', support: 0 },
+          { icon: '🚀', text: '실제 지원 중이다', prep: 'action', support: 0 }
         ]
       },
       {
-        text: '관심 있는 활동을 고른다면?',
+        text: '현재 내 마음과 가장 가까운 것은?',
         options: [
-          { text: '회원모임, 네트워크, 소모임', type: 'connect' },
-          { text: '캠페인, 환경실천, 지역활동', type: 'action' },
-          { text: '교육기획, 프로젝트 운영, 홍보콘텐츠', type: 'plan' },
-          { text: '상담, 돌봄, 청소년·여성 지원활동', type: 'care' }
+          { icon: '😶', text: '진로가\n막막하다', prep: 'explore', support: 1 },
+          { icon: '🙋', text: '의지는 있지만\n방법을 모르겠다', prep: 'ready', support: 0 },
+          { icon: '💪', text: '준비는\n하고 있다', prep: 'growth', support: 0 },
+          { icon: '🤝', text: '혼자 해결하기\n어렵다', prep: 'support', support: 1 }
         ]
       },
       {
-        text: '나는 이런 말을 들을 때가 많다.',
+        text: '취업하면 가장 기대되는 것은?',
         options: [
-          { text: '사람을 편하게 해준다.', type: 'connect' },
-          { text: '추진력이 있다.', type: 'action' },
-          { text: '정리를 잘한다.', type: 'plan' },
-          { text: '세심하고 따뜻하다.', type: 'care' }
+          { icon: '🧭', text: '방향 찾기', prep: 'explore', support: 0 },
+          { icon: '🏠', text: '안정적인 수입', prep: 'support', support: 1 },
+          { icon: '📈', text: '성장 기회', prep: 'growth', support: 0 },
+          { icon: '🛡️', text: '생활 안정', prep: 'support', support: 1 }
         ]
       },
       {
-        text: '활동을 시작할 때 가장 필요한 것은?',
+        text: '현재 연령은?',
         options: [
-          { text: '함께할 사람', type: 'connect' },
-          { text: '바로 해볼 수 있는 과제', type: 'action' },
-          { text: '명확한 목표와 계획', type: 'plan' },
-          { text: '안전하고 신뢰로운 분위기', type: 'care' }
+          { icon: '🧒', text: '만 15~17세', prep: null, age: 'teen' },
+          { icon: '🧑', text: '만 18~34세', prep: null, age: 'youth' },
+          { icon: '👤', text: '만 35~69세', prep: null, age: 'middle' },
+          { icon: '🚫', text: '그 외', prep: null, age: 'out' }
         ]
       },
       {
-        text: '예상치 못한 문제가 생겼을 때 나는?',
+        text: '현재 상태는?',
         options: [
-          { text: '사람들의 의견을 모아본다.', type: 'connect' },
-          { text: '당장 가능한 해결책부터 실행한다.', type: 'action' },
-          { text: '상황을 분석하고 대안을 비교한다.', type: 'plan' },
-          { text: '상처받거나 소외된 사람이 없는지 확인한다.', type: 'care' }
+          { icon: '🏫', text: '재학 중', prep: null, school: 'student' },
+          { icon: '🎓', text: '졸업 예정', prep: null, school: 'expected' },
+          { icon: '🔎', text: '졸업 후 미취업', prep: null, school: 'unemployed' },
+          { icon: '💼', text: '근로 중\n(아르바이트 포함)', prep: null, school: 'working' }
         ]
       },
       {
-        text: '내가 선호하는 활동 방식은?',
+        text: '주민등록상 가구원 수는?',
         options: [
-          { text: '대화와 교류 중심', type: 'connect' },
-          { text: '현장 참여 중심', type: 'action' },
-          { text: '기획과 제작 중심', type: 'plan' },
-          { text: '지원과 돌봄 중심', type: 'care' }
+          { icon: '1️⃣', text: '1인', prep: null },
+          { icon: '2️⃣', text: '2인', prep: null },
+          { icon: '3️⃣', text: '3인', prep: null },
+          { icon: '4️⃣', text: '4인 이상', prep: null }
         ]
       },
       {
-        text: '나에게 맞는 변화의 방식은?',
+        text: '가구 소득 수준은?',
         options: [
-          { text: '관계를 넓혀 공감대를 만든다.', type: 'connect' },
-          { text: '행동으로 메시지를 보여준다.', type: 'action' },
-          { text: '체계적인 프로그램으로 확산한다.', type: 'plan' },
-          { text: '가까운 사람의 삶을 회복시키는 데 집중한다.', type: 'care' }
+          { icon: '①', text: '중위소득\n60% 이하 예상', prep: null, income: 'under60' },
+          { icon: '②', text: '중위소득\n100% 이하 예상', prep: null, income: 'under100' },
+          { icon: '③', text: '중위소득\n120% 이하 예상', prep: null, income: 'under120' },
+          { icon: '❔', text: '잘 모르겠다', prep: null, income: 'unknown' }
         ]
       },
       {
-        text: '내가 활동에서 피하고 싶은 상황은?',
+        text: '가구 재산 수준은?',
         options: [
-          { text: '서로 단절되어 각자 움직이는 상황', type: 'connect' },
-          { text: '말만 많고 실행되지 않는 상황', type: 'action' },
-          { text: '계획 없이 즉흥적으로 진행되는 상황', type: 'plan' },
-          { text: '사람의 마음보다 성과만 앞서는 상황', type: 'care' }
+          { icon: '🏡', text: '4억 이하', prep: null, asset: 'under4' },
+          { icon: '🏘️', text: '4~5억', prep: null, asset: 'under5' },
+          { icon: '🏢', text: '5억 초과', prep: null, asset: 'over5' },
+          { icon: '❔', text: '모르겠다', prep: null, asset: 'unknown' }
         ]
       },
       {
-        text: '앞으로 내가 더 해보고 싶은 것은?',
+        text: '아래 항목 중 해당되는 것이 있나요?',
         options: [
-          { text: '좋은 사람들과 지속적으로 연결되기', type: 'connect' },
-          { text: '지역사회 변화를 위한 실천에 참여하기', type: 'action' },
-          { text: '내 아이디어를 프로그램으로 만들어보기', type: 'plan' },
-          { text: '누군가에게 힘이 되는 지원자가 되기', type: 'care' }
+          { icon: '🧾', text: '기초생활수급자\n또는 차상위계층', prep: 'support', special: true },
+          { icon: '👨‍👩‍👧', text: '한부모가족\n또는 위기청소년', prep: 'support', special: true },
+          { icon: '🏪', text: '영세 자영업자\n또는 폐업 소상공인', prep: 'support', special: true },
+          { icon: '➖', text: '해당 없음', prep: null, special: false }
         ]
       }
     ];
 
-    const results = {
-      connect: {
-        emoji: '🤝',
-        title: '연결형 활동가',
-        desc: '한 사람의 참여가 또 다른 사람의 참여로 이어지도록 분위기를 만들고 관계를 확장하는 데 강점이 있습니다. 모임 안에서 사람들을 자연스럽게 잇고, 함께하는 의미를 키워가는 유형입니다.',
-        recommends: ['회원 소모임 및 네트워크 활동', '캠페인 참여자 모집·홍보', '지역사회 연대활동', '행사 진행 보조 및 참여자 안내'],
-        tips: ['혼자 모든 관계를 책임지려 하지 않아도 괜찮습니다.', '연결의 힘을 사업성과로 기록하면 더 큰 영향력이 됩니다.', '소통 역할과 실무 역할의 경계를 정하면 지속성이 높아집니다.']
+    const prepResults = {
+      explore: {
+        icon: '🔍',
+        title: '탐색형',
+        desc: '아직 진로 방향을 찾아가는 단계입니다. 진로상담과 취업계획 수립을 통해 나에게 맞는 준비 방향을 확인하는 것이 좋습니다.',
+        services: ['💬 취업상담', '🧭 진로설계', '📖 취업역량강화', '🎓 직업훈련 연계']
+      },
+      ready: {
+        icon: '📝',
+        title: '준비형',
+        desc: '취업 의지는 있지만 구체적인 방법을 보완하면 더 좋아지는 단계입니다. 이력서, 면접, 구직활동 계획을 함께 점검해보세요.',
+        services: ['💬 취업상담', '📄 이력서 컨설팅', '🎤 면접 준비', '🎓 직업훈련 연계']
+      },
+      growth: {
+        icon: '🌱',
+        title: '성장형',
+        desc: '취업을 위해 꾸준히 준비하고 있으며, 실질적인 역량 강화가 필요한 단계입니다. 직업훈련과 일경험 연계를 함께 검토해볼 수 있습니다.',
+        services: ['💬 취업상담', '📖 취업역량강화', '🎓 직업훈련 연계', '👤 일경험 지원']
       },
       action: {
-        emoji: '🔥',
-        title: '실천형 활동가',
-        desc: '좋은 가치가 현장에서 실제 행동으로 이어질 때 가장 큰 힘을 발휘합니다. 생각에 머무르기보다 직접 움직이고, 캠페인과 지역활동에서 변화를 만들어내는 유형입니다.',
-        recommends: ['환경·평화·성평등 캠페인', '지역사회 봉사 및 현장활동', '행사 운영 스태프', '실천 챌린지 기획 및 참여'],
-        tips: ['속도감은 강점이지만, 활동 후 기록과 평가를 남기면 더 좋습니다.', '혼자 앞서가기보다 팀의 속도를 확인하면 협업력이 높아집니다.', '작은 실천도 꾸준히 연결하면 운동성이 됩니다.']
+        icon: '🚀',
+        title: '실행형',
+        desc: '이미 구직활동을 시작한 단계입니다. 취업알선, 면접 클리닉, 구직활동 계획 점검을 통해 취업 가능성을 높일 수 있습니다.',
+        services: ['💬 취업상담', '🎤 면접 클리닉', '📌 취업알선', '👤 일경험 지원']
       },
-      plan: {
-        emoji: '🧩',
-        title: '기획형 활동가',
-        desc: '문제를 구조적으로 보고, 아이디어를 구체적인 프로그램과 콘텐츠로 정리하는 데 강점이 있습니다. 활동의 목적과 흐름을 설계하고 성과로 연결하는 유형입니다.',
-        recommends: ['교육·캠페인 기획단', '홍보콘텐츠 제작', '프로그램 아이디어 회의', '자료조사 및 사업 운영 지원'],
-        tips: ['완벽한 계획보다 실행 가능한 계획이 중요할 때도 있습니다.', '기획 단계에서 현장 참여자의 목소리를 함께 반영하면 완성도가 높아집니다.', '좋은 아이디어는 기록해두면 다음 사업의 자산이 됩니다.']
-      },
-      care: {
-        emoji: '🌿',
-        title: '돌봄형 활동가',
-        desc: '사람의 마음과 안전을 세심하게 살피며, 누구도 소외되지 않도록 돕는 데 강점이 있습니다. 활동 안에서 신뢰와 회복의 기반을 만드는 유형입니다.',
-        recommends: ['청소년·여성 지원활동', '상담·멘토링 보조활동', '돌봄 및 나눔 캠페인', '참여자 환대·안내 역할'],
-        tips: ['다른 사람을 돌보는 만큼 나의 소진도 함께 점검해야 합니다.', '배려는 강점이지만, 필요한 경우 명확한 기준을 세우는 것도 중요합니다.', '작은 지지와 환대가 참여자의 지속성을 높입니다.']
+      support: {
+        icon: '🤝',
+        title: '지원연계형',
+        desc: '취업 준비와 함께 경제적·생활적 여건을 함께 살펴볼 필요가 있는 단계입니다. 국민취업지원제도 상담을 우선 권장드립니다.',
+        services: ['💬 취업상담', '💵 구직촉진수당 검토', '📖 취업역량강화', '🎓 직업훈련 연계']
       }
     };
 
@@ -524,7 +876,7 @@
     let answers = new Array(questions.length).fill(null);
 
     function showSection(id) {
-      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -538,34 +890,38 @@
 
     function renderQuestion() {
       const q = questions[current];
-      document.getElementById('progressText').textContent = `${current + 1} / ${questions.length}`;
-      document.getElementById('progressBar').style.width = `${((current + 1) / questions.length) * 100}%`;
-      document.getElementById('qNumber').textContent = `Q${current + 1}`;
+      document.getElementById('qLabel').textContent = `Q${current + 1}.`;
       document.getElementById('qTitle').textContent = q.text;
+      document.getElementById('countText').textContent = `${current + 1} / ${questions.length}`;
+      document.getElementById('barFill').style.width = `${((current + 1) / questions.length) * 100}%`;
 
-      const optionsEl = document.getElementById('options');
-      optionsEl.innerHTML = '';
+      const grid = document.getElementById('optionGrid');
+      grid.innerHTML = '';
 
-      q.options.forEach((opt, idx) => {
+      q.options.forEach((option, index) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'option' + (answers[current] === opt.type ? ' selected' : '');
-        btn.textContent = opt.text;
+        btn.className = 'option' + (answers[current] === option ? ' selected' : '');
+        btn.innerHTML = `
+          <div class="opt-icon">${option.icon}</div>
+          <div class="opt-num">${index + 1}</div>
+          <div class="opt-text">${option.text}</div>
+        `;
         btn.onclick = () => {
-          answers[current] = opt.type;
+          answers[current] = option;
           renderQuestion();
         };
-        optionsEl.appendChild(btn);
+        grid.appendChild(btn);
       });
     }
 
     function prevQuestion() {
-      if (current > 0) {
-        current--;
-        renderQuestion();
-      } else {
+      if (current === 0) {
         showSection('intro');
+        return;
       }
+      current--;
+      renderQuestion();
     }
 
     function nextQuestion() {
@@ -573,7 +929,6 @@
         alert('답변을 선택해 주세요.');
         return;
       }
-
       if (current < questions.length - 1) {
         current++;
         renderQuestion();
@@ -583,45 +938,68 @@
     }
 
     function showResult() {
-      const score = { connect: 0, action: 0, plan: 0, care: 0 };
-      answers.forEach(type => { if (type) score[type]++; });
+      const prepScore = { explore: 0, ready: 0, growth: 0, action: 0, support: 0 };
+      let age = null, school = null, income = null, asset = null, special = false;
 
-      const topType = Object.keys(score).sort((a, b) => score[b] - score[a])[0];
-      const result = results[topType];
-
-      document.getElementById('resultEmoji').textContent = result.emoji;
-      document.getElementById('resultTitle').textContent = result.title;
-      document.getElementById('resultDesc').textContent = result.desc;
-
-      const recEl = document.getElementById('recommendList');
-      recEl.innerHTML = '';
-      result.recommends.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        recEl.appendChild(li);
+      answers.forEach(answer => {
+        if (!answer) return;
+        if (answer.prep) prepScore[answer.prep]++;
+        if (answer.support) prepScore.support += answer.support;
+        if (answer.age) age = answer.age;
+        if (answer.school) school = answer.school;
+        if (answer.income) income = answer.income;
+        if (answer.asset) asset = answer.asset;
+        if (answer.special === true) special = true;
       });
 
-      const tipEl = document.getElementById('tipList');
-      tipEl.innerHTML = '';
-      result.tips.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        tipEl.appendChild(li);
+      const prepType = Object.keys(prepScore).sort((a, b) => prepScore[b] - prepScore[a])[0];
+      const prep = prepResults[prepType];
+
+      let supportTitle = '상담을 통한 확인 필요';
+      let supportDesc = '입력하신 내용만으로는 정확한 유형을 단정하기 어렵습니다. 상담을 통해 1유형 또는 2유형 참여 가능성을 확인해보세요.';
+
+      if (age === 'out') {
+        supportTitle = '참여 가능 연령 확인 필요';
+        supportDesc = '국민취업지원제도는 기본적으로 만 15~69세 구직자를 대상으로 합니다. 세부 참여 가능 여부는 상담을 통해 확인해주세요.';
+      } else if (school === 'student') {
+        supportTitle = '재학 여부 확인 필요';
+        supportDesc = '일반 재학생은 참여가 제한될 수 있습니다. 졸업예정자, 야간대·방통대 등 예외 기준은 상담을 통해 확인이 필요합니다.';
+      } else if (income === 'unknown' || asset === 'unknown') {
+        supportTitle = '전산심사 확인 필요';
+        supportDesc = '소득 또는 재산을 정확히 알기 어려운 경우, 신청 후 공적 전산망 조회를 통해 최종 유형이 확인됩니다.';
+      } else if ((age === 'teen' || age === 'youth') && ['under60','under100','under120'].includes(income) && ['under4','under5'].includes(asset)) {
+        supportTitle = '1유형 가능성 있음';
+        supportDesc = '청년층 기준을 고려할 때 구직촉진수당을 포함한 1유형 참여 가능성이 있습니다. 정확한 판단은 상담을 통해 확인됩니다.';
+      } else if (age === 'middle' && income === 'under60' && asset === 'under4') {
+        supportTitle = '1유형 가능성 있음';
+        supportDesc = '입력하신 소득·재산 기준을 고려할 때 1유형 참여 가능성이 있습니다. 정확한 판단은 상담을 통해 확인됩니다.';
+      } else if (special) {
+        supportTitle = '2유형 가능성 높음';
+        supportDesc = '특정계층 해당 가능성이 있어 맞춤형 취업지원 중심의 2유형 참여 가능성을 상담을 통해 확인해볼 수 있습니다.';
+      } else {
+        supportTitle = '2유형 가능성 높음';
+        supportDesc = '입력하신 내용을 기준으로 국민취업지원제도 2유형 참여가 가능할 수 있습니다. 상담을 통해 세부 요건을 확인해보세요.';
+      }
+
+      document.getElementById('prepIcon').textContent = prep.icon;
+      document.getElementById('prepTitle').textContent = prep.title;
+      document.getElementById('prepDesc').textContent = prep.desc;
+      document.getElementById('supportTitle').textContent = supportTitle;
+      document.getElementById('supportDesc').textContent = supportDesc;
+
+      const serviceGrid = document.getElementById('serviceGrid');
+      serviceGrid.innerHTML = '';
+      prep.services.forEach(item => {
+        const firstSpace = item.indexOf(' ');
+        const icon = item.slice(0, firstSpace);
+        const text = item.slice(firstSpace + 1);
+        const div = document.createElement('div');
+        div.className = 'service';
+        div.innerHTML = `<span>${icon}</span>${text}`;
+        serviceGrid.appendChild(div);
       });
 
       showSection('result');
-    }
-
-    function shareResult() {
-      const title = document.getElementById('resultTitle').textContent;
-      const text = `나의 YWCA 활동성향은 '${title}'입니다.`;
-
-      if (navigator.share) {
-        navigator.share({ title: '나의 YWCA 활동성향 테스트', text, url: location.href });
-      } else {
-        navigator.clipboard.writeText(`${text}\n${location.href}`);
-        alert('공유 문구와 링크가 복사되었습니다.');
-      }
     }
 
     function resetTest() {
